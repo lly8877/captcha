@@ -48,9 +48,21 @@ function append_top10_params($data_array)
   $i = 0;
   foreach ($data_array as $row)
   {
-    $pie = print_pie_data($i, $row);
-    $str .= "categories[categories.length] = {$row['site_id']};";
-    $str .= "data[data.length] = {$pie};";
+    $total_num = $row['total_num'];
+    $correct_input = $row['correct_input'];
+    $wrong_input = $row['not_timeout_input']-$row['correct_input'];
+    $time_out_input = $row['total_num']-$row['not_timeout_input'];
+    $correct_input = $row['correct_input'];
+    $str .= "categories[categories.length] = {$row['site_id']};\n";
+    $str .= "data[data.length] = { 
+              y: {$total_num},
+              color: colors[{$i}],
+              drilldown: {
+                 categories: ['正确','错误','超时'],
+                 data: [{$correct_input},{$wrong_input},{$time_out_input}],
+                 color: colors[{$i}]
+              }
+    };";
     $i++;
   }
   return $str;

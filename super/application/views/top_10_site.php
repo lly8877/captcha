@@ -1,5 +1,4 @@
 
-<?= append_top10_params($data_strings) ?> 
 <script>
 var chart;
 $(document).ready(function() {
@@ -8,6 +7,7 @@ $(document).ready(function() {
    var categories = [];
    var data = [];
    
+   <?= append_top10_params($data_strings) ?> 
    
    // Build the data arrays
    var siteData = [];
