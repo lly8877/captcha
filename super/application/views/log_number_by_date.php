@@ -1,4 +1,3 @@
-<?php //echo $data_string[0] ?>
 <script>
 $(function() {
 	var seriesOptions = [];
@@ -47,6 +46,7 @@ $(function() {
 
 });
 </script>
+  <?php if(isset($class_id)){echo "<h2>Class ID: $class_id</h2>";}?>
 <div id="container">
 </div>
 <!--TODO finish the table -->

@@ -5,17 +5,26 @@ class Problem extends CI_Controller {
   {
       parent::__construct();
       $this->load->model('problem_model');
-      //$this->load->helper('problem_view_helper');
       $this->load->helper('application_view_helper');
       $this->load->library('table');
   }
 
-  function get_less_than_lower_limit_class()
+  function by_class_summary()
   {
+    $data['total_num'] = $this->problem_model->get_total_problem_num();
     $data['data'] = $this->problem_model->get_less_than_lower_limit_class();
-    $template['content'] = $this->load->view('get_less_than_lower_limit_class', $data, true);
+    $template['content'] = $this->load->view('problem_status', $data, true);
     $this->load->view('maintemplate', $template); 
   }
+
+  function by_class()
+  {
+    $data['data'] = $this->problem_model->get_num_by_class();
+    $template['content'] = $this->load->view('problem_by_class', $data, true);
+    $this->load->view('maintemplate', $template); 
+  }
+
+
 
 
   //Use this to populate the database!!

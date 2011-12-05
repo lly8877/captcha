@@ -4,7 +4,7 @@ class Problem_model extends CI_Model{
   function get_less_than_lower_limit_class()
   {
     $q = $this->db->query(
-        "SELECT COUNT( problem.chaID ), problem.class_id, class.lower_limit
+        "SELECT problem.class_id, COUNT( problem.chaID ), class.lower_limit
         FROM  `problem` 
         INNER JOIN class ON problem.class_id = class.id
         GROUP BY problem.class_id");
@@ -22,8 +22,30 @@ class Problem_model extends CI_Model{
     return $q;
   }
 
+  function get_num_by_class()
+  {
+    $q = $this->db->query(
+      "
+      SELECT 
+      problem.class_id,
+      COUNT( problem.chaID ) as total_num,
+      class.lower_limit,
+      class.upper_limit
+      FROM  `problem` , `class`
+      where problem.class_id = class.id
+      GROUP BY problem.class_id");
+    return $q->result_array();
+  }
 
 
+  function get_total_problem_num()
+  {
+    $q = $this->db->query(
+      "SELECT COUNT(problem.chaID) as total_num
+      FROM  `problem` ");
+    $a = $q->result_array();
+    return $a[0]['total_num'];
+  }
 
 
 //******************************CODE FOR TEST ********************************

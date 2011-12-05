@@ -23,12 +23,10 @@ function print_captcha_num($query_res)
   foreach ($query_res as $row)
   {
     $time_start = "[Date.UTC({$row['time_start']}, 0, 0), ";
-    $wrong_input = $row['not_timeout_input']-$row['correct_input'];
-    $time_out = $row['today_captcha_num']-$row['not_timeout_input'];
     $str_all     .= $time_start."{$row['today_captcha_num']}],";
     $str_correct .= $time_start."{$row['correct_input']}],";
-    $str_wrong   .= $time_start."{$wrong_input}],";
-    $str_timeout .= $time_start."{$time_out}],";
+    $str_wrong   .= $time_start."{$row['wrong_input']}],";
+    $str_timeout .= $time_start."{$row['timeout_input']}],";
   }
   $str_all .= ']';
   $str_correct .= ']';
@@ -42,18 +40,17 @@ function print_captcha_num($query_res)
 }
 
 
-function append_top10_params($data_array)
+function append_top10_params($data_array, $id_str)
 {
   $str = '';
   $i = 0;
   foreach ($data_array as $row)
   {
     $total_num = $row['total_num'];
+    $wrong_input = $row['wrong_input'];
+    $time_out_input = $row['timeout_input'];
     $correct_input = $row['correct_input'];
-    $wrong_input = $row['not_timeout_input']-$row['correct_input'];
-    $time_out_input = $row['total_num']-$row['not_timeout_input'];
-    $correct_input = $row['correct_input'];
-    $str .= "categories[categories.length] = {$row['site_id']};\n";
+    $str .= "categories[categories.length] = {$row[$id_str]};\n";
     $str .= "data[data.length] = { 
               y: {$total_num},
               color: colors[{$i}],
@@ -73,29 +70,9 @@ function site_contact_table($data_array)
   //data_array should be a query result from [publisher_site] or other table containing contact info.
   //TODO implement it (currently not tested)
   $str = "
-  <table>
-    <th>
       <td>SITE ID<td>
       <td>域名</td>
       <td>联系人</td>
       <td>联系方式</td>
       </th>";
-  foreach ($data_array as $row)
-  $str .= "
-  <tr>
-    <td>
-      {$row['id']}
-    </td>
-    <td>
-      {$row['domain_name']}
-    </td>
-    <td>
-      {$row['contact_name']}
-    </td>
-    <td>
-      {$row['contact_info']}
-    </td>
-  </tr>";
-  $str .= "</table>";
-  return $str;
 }

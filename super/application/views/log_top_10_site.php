@@ -1,4 +1,3 @@
-
 <script>
 var chart;
 $(document).ready(function() {
@@ -7,7 +6,7 @@ $(document).ready(function() {
    var categories = [];
    var data = [];
    
-   <?= append_top10_params($data_strings) ?> 
+   <?= append_top10_params($data, 'site_id') ?> 
    
    // Build the data arrays
    var siteData = [];
@@ -83,6 +82,23 @@ $(document).ready(function() {
    
 });
 </script>
+<div style="float:right">
+<a href="year">最近一年</a>
+<a href="month">最近一个月</a>
+<a href="day">最近一天</a>
+<a href="hour">最近一小时</a>
+</div>
 <div id="container">
+</div>
+<script>
+$(document).ready(function(){
+	$('table').dataTable();
+});
+</script>
+<div>
+<?php 
+    $this->table->set_heading(array('Site ID', '总数量', '正确', '错误', '超时'));
+    echo $this->table->generate($data);
+?>
 </div>
 

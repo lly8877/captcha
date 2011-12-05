@@ -28,7 +28,8 @@ margin: 0px;
   height:600px;
 }
 
-#table_div
+table
 {
-  margin:auto;
+  width: 100%;
 }
+

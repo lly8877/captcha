@@ -2,16 +2,22 @@
 
 class Log_model extends CI_Model{
   //get the number of captcha, group by day.
-  function get_captcha_num_by_date(){
-    $q = $this->db->query(
-      "
+  function get_captcha_num_by_date($class_id="no_id"){
+    $where = "";
+    if ($class_id!="no_id"){
+      $where = "WHERE class_id = $class_id";
+    }
+    $query_str = "
       SELECT DATE_FORMAT(issue_time,'%Y, %m-1, %d, %H') as time_start,
         COUNT(chaID) AS today_captcha_num,
         SUM(is_correct) AS correct_input,
-        COUNT(finish_time) AS not_timeout_input
-      FROM log
-      GROUP BY time_start
-      ");
+        COUNT(finish_time) - SUM(is_correct) AS wrong_input,
+        COUNT(chaID) - COUNT(finish_time) AS timeout_input
+        FROM log
+        $where
+        GROUP BY time_start
+      ";
+    $q = $this->db->query($query_str);
     return $q->result_array();
   }
 
@@ -19,20 +25,36 @@ class Log_model extends CI_Model{
   { 
     $q = $this->db->query("
       SELECT 
-      COUNT( chaID ) AS total_num, 
-      SUM( is_correct ) AS correct_input, 
-      COUNT( finish_time ) AS not_timeout_input, 
-      site_id
+      log.site_id as site_id,
+      COUNT( log.chaID ) AS total_num, 
+      SUM( log.is_correct ) AS correct_input, 
+      (COUNT( log.finish_time ) - SUM( log.is_correct )) AS wrong_input, 
+      (COUNT( log.chaID ) - COUNT( log.finish_time )) AS timeout_input
       FROM log
       WHERE issue_time >= DATE_SUB( NOW( ) , INTERVAL 1 {$str} ) 
       GROUP BY site_id
       ORDER BY total_num DESC 
       LIMIT 0 , 10
      ");
-    //data_strings[0] is categories
-    //data_strings[1] is the data
     return $q->result_array();
   }
+
+  function by_class($str='YEAR'){
+    $q = $this->db->query(
+      "
+      SELECT 
+        class_id,
+        COUNT(chaID) AS total_num,
+        SUM(is_correct) AS correct_input,
+        COUNT(finish_time) - SUM(is_correct) AS wrong_input,
+        COUNT(chaID) - COUNT(finish_time) AS timeout_input
+      FROM log
+      WHERE issue_time >= DATE_SUB( NOW( ) , INTERVAL 1 {$str} ) 
+      GROUP BY class_id
+      ");
+    return $q->result_array();
+  }
+
 
 
 
