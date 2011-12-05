@@ -39,7 +39,7 @@ $(document).ready(function() {
          type: 'pie'
       },
       title: {
-         text: '出码量前十名'
+        text: '<?= $recent_unit ?>出码量前十名'
       },
       yAxis: {
          title: {

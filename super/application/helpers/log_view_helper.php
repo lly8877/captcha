@@ -68,4 +68,34 @@ function append_top10_params($data_array)
   return $str;
 }
 
-
+function site_contact_table($data_array)
+{
+  //data_array should be a query result from [publisher_site] or other table containing contact info.
+  //TODO implement it (currently not tested)
+  $str = "
+  <table>
+    <th>
+      <td>SITE ID<td>
+      <td>域名</td>
+      <td>联系人</td>
+      <td>联系方式</td>
+      </th>";
+  foreach ($data_array as $row)
+  $str .= "
+  <tr>
+    <td>
+      {$row['id']}
+    </td>
+    <td>
+      {$row['domain_name']}
+    </td>
+    <td>
+      {$row['contact_name']}
+    </td>
+    <td>
+      {$row['contact_info']}
+    </td>
+  </tr>";
+  $str .= "</table>";
+  return $str;
+}

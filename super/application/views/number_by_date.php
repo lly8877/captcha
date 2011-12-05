@@ -51,14 +51,5 @@ $(function() {
 </div>
 <!--TODO finish the table -->
 <div id="data_table">
-  <table>
-    <th>
-      <td>域名</td>
-      <td>联系方式</td>
-      <td></td>
-      <td></td>
-    </th>
-    <tr>
-    </tr>
-  </table>
+<!-- site_contact_table($data_array) -->
 </div>

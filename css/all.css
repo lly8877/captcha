@@ -2,11 +2,6 @@
   width:900px;
   margin: 0 auto; 
 }
-body{
-  background: transparent url('/images/body_bg.png') repeat-x;
-  background-color: #5f5f5f;
-  color: white;
-}
 
 #menu{
   width:100px;
@@ -31,4 +26,9 @@ margin: 0px;
 #container
 {
   height:600px;
+}
+
+#table_div
+{
+  margin:auto;
 }

@@ -6,6 +6,7 @@ class Log extends CI_Controller {
       parent::__construct();
       $this->load->model('log_model');
       $this->load->helper('log_view_helper');
+      $this->load->helper('application_view_helper');
   }
 
   function readall()
@@ -22,9 +23,19 @@ class Log extends CI_Controller {
     $this->load->view('maintemplate', $template); 
   }
 
-  function top10site()
+  function top_10_site($recent="year")
   {
-    $data['data_strings'] = $this->log_model->get_top_10_site_array();
+    if ($recent!='year' and $recent!='month' and $recent!='day' and $recent!='hour')
+      $recent = 'year';
+    if ($recent == 'year')
+      $data['recent_unit'] = '最近一年';
+    else if ($recent == 'month')
+      $data['recent_unit'] = '最近一月';
+    else if ($recent == 'day')
+      $data['recent_unit'] = '最近一天';
+    else if ($recent == 'hour')
+      $data['recent_unit'] = '最近一小时';
+    $data['data_strings'] = $this->log_model->get_top_10_site_array($recent);
     $template['content'] = $this->load->view('top_10_site', $data, true);
     $this->load->view('maintemplate', $template); 
   }
