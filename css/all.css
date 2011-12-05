@@ -4,12 +4,12 @@
 }
 
 #menu{
-  width:100px;
+  width:200px;
   float:left;
 }
 
 #content{
-  width:800px;
+  width:700px;
   float:right;
 }
 
@@ -33,3 +33,7 @@ table
   width: 100%;
 }
 
+li
+{
+  padding-bottom: 10px;
+}
